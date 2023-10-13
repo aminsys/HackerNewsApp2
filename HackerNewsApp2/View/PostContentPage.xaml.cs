@@ -24,14 +24,14 @@ public partial class PostContentPage : ContentPage
     protected override async void OnAppearing()
     {
         base.OnAppearing();
-
         List<HackerNewsPostModel> kidsItems = await FetchPostAsync();
         PostCollectionView.ItemsSource = kidsItems;
+        loadingIndicator.IsRunning = false;
+        loadingIndicator.IsVisible = false;
     }
 
     private async Task<List<HackerNewsPostModel>> FetchPostAsync()
     {
-        Label TitleLabel;
         List<HackerNewsPostModel> kidsContent = new List<HackerNewsPostModel>();
         try
         {
@@ -47,11 +47,6 @@ public partial class PostContentPage : ContentPage
                         if (kidItem != null && !kidItem.Dead)
                         {
                             kidsContent.Add(kidItem);
-                            TitleLabel = FindByName("TitleLabel") as Label;
-                            if(TitleLabel != null)
-                            {
-                                TitleLabel.Text = "GFDGDGTRf";
-                            }
                         }
                     }
                 }

@@ -10,5 +10,7 @@ public partial class MainPage : ContentPage
     public MainPage()
     {
         InitializeComponent();
+        loadingIndicator.IsRunning = false;
+        loadingIndicator.IsVisible = false;
     }
 }

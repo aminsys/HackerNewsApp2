@@ -27,6 +27,8 @@
                 </CollectionView.ItemTemplate>
             </CollectionView>
             <!--<Button Text="Fetch Hacker News" Clicked="OnFetchNewsClicked" Margin="10" WidthRequest="200"/>-->
+            <ActivityIndicator x:Name="loadingIndicator" IsRunning="True" IsVisible="True" 
+                   HorizontalOptions="Center" VerticalOptions="Center"/>
         </StackLayout>
     </ScrollView>
     

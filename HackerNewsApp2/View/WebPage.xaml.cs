@@ -8,7 +8,7 @@ public partial class WebPage : ContentPage
     }
     public WebPage(string url)
     {
-        WebViewPage.Source = url;
         InitializeComponent();
+        WebViewPage.Source = url;
     }
 }

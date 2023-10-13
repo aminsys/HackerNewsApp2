@@ -22,6 +22,8 @@ public partial class HackerNewsAskPage : ContentPage
 
         List<HackerNewsPostModel> newsItems = await FetchNewsAsync();
         NewsCollectionView.ItemsSource = newsItems;
+        loadingIndicator.IsRunning = false;
+        loadingIndicator.IsVisible = false;
     }
 
     private async void OnFetchNewsClicked(object sender, EventArgs e)

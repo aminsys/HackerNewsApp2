@@ -6,6 +6,8 @@
     <VerticalStackLayout>
         <Label Text="Welcome to the Appified version of Hacker News, This app displays the five most recent posts from Ask HN."
           HorizontalOptions="Center" SemanticProperties.HeadingLevel="Level1" FontSize="18"/>
+        <ActivityIndicator x:Name="loadingIndicator" IsRunning="True" IsVisible="True" 
+           HorizontalOptions="Center" VerticalOptions="End"/>
     </VerticalStackLayout>
 
 </ContentPage>

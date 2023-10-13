@@ -27,7 +27,7 @@
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
             </CollectionView>
-            <Button Text="Fetch Hacker News" Clicked="OnFetchNewsClicked" Margin="10" WidthRequest="200"/>
+            <Button Text="Update List" Clicked="OnFetchNewsClicked" Margin="10" WidthRequest="200"/>
         </StackLayout>
     </ScrollView>
 </ContentPage>
