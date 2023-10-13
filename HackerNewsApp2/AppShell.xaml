@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Shell
+    x:Class="HackerNewsApp2.AppShell"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:local="clr-namespace:HackerNewsApp2"
+    xmlns:view="clr-namespace:HackerNewsApp2.View"
+    Shell.FlyoutBehavior="Flyout">
+
+    <ShellContent
+        Title="Hacker News"
+        ContentTemplate="{DataTemplate local:MainPage}"
+        Route="MainPage" />
+
+    <ShellContent
+        Title="Top HN"
+        ContentTemplate="{DataTemplate view:HackerNewsTopPage}"
+        Route="HackerNewsTopPage" />
+    
+    <ShellContent
+        Title="Ask HN"
+        ContentTemplate="{DataTemplate view:HackerNewsAskPage}"
+        Route="HackerNewsAskPage" />
+
+    <ShellContent
+        Title="Best of HN"
+        ContentTemplate="{DataTemplate view:HackerNewsBestPage}"
+        Route="HackerNewsBestPage" />
+
+</Shell>
