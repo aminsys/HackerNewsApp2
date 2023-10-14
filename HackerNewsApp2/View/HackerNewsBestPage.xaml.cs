@@ -2,6 +2,7 @@ using HackerNewsApp2.Model;
 using HtmlAgilityPack;
 using System.Diagnostics;
 using System.Net.Http.Json;
+using System.Net.NetworkInformation;
 
 namespace HackerNewsApp2.View;
 
@@ -21,6 +22,8 @@ public partial class HackerNewsBestPage : ContentPage
 
         List<HackerNewsPostModel> newsItems = await FetchNewsAsync();
         NewsCollectionView.ItemsSource = newsItems;
+        loadingIndicator.IsRunning = false;
+        loadingIndicator.IsVisible = false;
     }
 
     private async void OnFetchNewsClicked(object sender, EventArgs e)
@@ -50,8 +53,11 @@ public partial class HackerNewsBestPage : ContentPage
                     {
                         jsonItem.Text = jsonItem.Url;
                     }
-                    newsItems.Add(jsonItem);
-                    c++;
+                    if (!jsonItem.Deleted)
+                    {
+                        newsItems.Add(jsonItem);
+                        c++;
+                    }
                     if (c > 10)
                     {
                         break;
@@ -71,6 +77,6 @@ public partial class HackerNewsBestPage : ContentPage
     {
         Debug.WriteLine("Selected Item ID: " + (e.CurrentSelection.FirstOrDefault() as HackerNewsPostModel).Id);
         HackerNewsPostModel post = (e.CurrentSelection.FirstOrDefault() as HackerNewsPostModel);
-        await Navigation.PushAsync(new PostContentPage(post));
+        await Navigation.PushAsync(new WebPage(post.Url));        
     }
 }

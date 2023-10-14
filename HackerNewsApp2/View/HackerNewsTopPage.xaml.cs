@@ -21,6 +21,8 @@ public partial class HackerNewsTopPage : ContentPage
 
         List<HackerNewsPostModel> newsItems = await FetchNewsAsync();
         NewsCollectionView.ItemsSource = newsItems;
+        loadingIndicator.IsRunning = false;
+        loadingIndicator.IsVisible = false;
     }
 
     private async void OnFetchNewsClicked(object sender, EventArgs e)
@@ -46,8 +48,11 @@ public partial class HackerNewsTopPage : ContentPage
                 {
                     HttpResponseMessage response = await client.GetAsync(ApiUrl + item + ".json");
                     var jsonItem = await response.Content.ReadFromJsonAsync<HackerNewsPostModel>();
-                    newsItems.Add(jsonItem);
-                    c++;
+                    if (!jsonItem.Deleted)
+                    {
+                        newsItems.Add(jsonItem);
+                        c++;
+                    }
                     if (c > 5)
                     {
                         break;
@@ -67,6 +72,13 @@ public partial class HackerNewsTopPage : ContentPage
     {
         Debug.WriteLine("Selected Item ID: " + (e.CurrentSelection.FirstOrDefault() as HackerNewsPostModel).Id);
         HackerNewsPostModel post = (e.CurrentSelection.FirstOrDefault() as HackerNewsPostModel);
-        await Navigation.PushAsync(new WebPage(post.Url));
+        if(post.Text != null)
+        {
+            await Navigation.PushAsync(new PostContentPage(post));
+        }
+        else
+        {
+            await Navigation.PushAsync(new WebPage(post.Url));
+        }
     }
 }

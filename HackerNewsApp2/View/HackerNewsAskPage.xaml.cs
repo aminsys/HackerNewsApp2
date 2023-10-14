@@ -52,8 +52,12 @@ public partial class HackerNewsAskPage : ContentPage
                     {
                         jsonItem.Text = jsonItem.Url;
                     }
-                    newsItems.Add(jsonItem);
-                    c++;
+                    
+                    if(!jsonItem.Deleted){
+                        newsItems.Add(jsonItem);
+                        c++;
+                    }
+
                     if (c > 5)
                     {
                         break;
