@@ -48,6 +48,10 @@ public partial class HackerNewsTopPage : ContentPage
                 {
                     HttpResponseMessage response = await client.GetAsync(ApiUrl + item + ".json");
                     var jsonItem = await response.Content.ReadFromJsonAsync<HackerNewsPostModel>();
+                    if (string.IsNullOrEmpty(jsonItem.Text))
+                    {
+                        jsonItem.Text = jsonItem.Url;
+                    }
                     if (!jsonItem.Deleted)
                     {
                         newsItems.Add(jsonItem);

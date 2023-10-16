@@ -2,6 +2,6 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="HackerNewsApp2.View.WebPage"
-             Title="WebPage">
+             Title="Web Page View">
     <WebView x:Name="WebViewPage"></WebView>
 </ContentPage>
