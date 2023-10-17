@@ -73,10 +73,10 @@ public partial class HackerNewsAskPage : ContentPage
         }
     }
 
-    private async void OpenSelectedPost_SelectionChanged(object sender, SelectionChangedEventArgs e)
+    private async void OpenSelectedPost_SelectionChanged(object sender, EventArgs e)
     {
-        Debug.WriteLine("Selected Item ID: " + (e.CurrentSelection.FirstOrDefault() as HackerNewsPostModel).Id);
-        HackerNewsPostModel post = (e.CurrentSelection.FirstOrDefault() as HackerNewsPostModel);
-        await Navigation.PushAsync(new PostContentPage(post));
+        Debug.WriteLine("Ask HN post clicked!");
+        // HackerNewsPostModel post = (e.CurrentSelection.FirstOrDefault() as HackerNewsPostModel);
+        // await Navigation.PushAsync(new PostContentPage(post));
     }
 }

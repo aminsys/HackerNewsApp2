@@ -73,10 +73,9 @@ public partial class HackerNewsBestPage : ContentPage
         }
     }
 
-    private async void OpenSelectedPost_SelectionChanged(object sender, SelectionChangedEventArgs e)
+    private async void OpenSelectedPost_SelectionChanged(object sender, EventArgs e)
     {
-        Debug.WriteLine("Selected Item ID: " + (e.CurrentSelection.FirstOrDefault() as HackerNewsPostModel).Id);
-        HackerNewsPostModel post = (e.CurrentSelection.FirstOrDefault() as HackerNewsPostModel);
-        await Navigation.PushAsync(new WebPage(post.Url));        
+        Debug.WriteLine("Clicked on post!");
+        // await Navigation.PushAsync(new WebPage(post.Url));        
     }
 }

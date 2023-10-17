@@ -11,16 +11,18 @@
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
                         <Frame BackgroundColor="LightGray" Margin="10">
-                            <VerticalStackLayout Grid.Column="0">
-                                <Label Text="{Binding Title}" FontSize="18" FontAttributes="Bold" Margin="0,0,0,10" TextColor="Black"/>
-                                <Label Text="{Binding Text}" FontSize="16" LineBreakMode="CharacterWrap" MaxLines="3" 
-                                       HorizontalOptions="Start" TextColor="Black"/>
+                            <VerticalStackLayout>
+                                <Label Text="{Binding Title}" FontSize="18" FontAttributes="Bold" Margin="0,0,0,10" MaximumWidthRequest="350" TextColor="Black"/>
+                                <Label x:Name="textLabel" Text="{Binding Text}" FontSize="16" LineBreakMode="CharacterWrap" MaxLines="3" 
+                HorizontalOptions="Start" TextColor="Black" MaximumWidthRequest="300"/>
+
                                 <HorizontalStackLayout Margin="0,10,0,0">
-                                    <Label Text="{Binding By, StringFormat='By: {0}'}" FontSize="12" TextColor="Black" Margin="0,0,10,0" />
-                                    <Label Text="{Binding Score, StringFormat='{0} points'}" FontSize="12" TextColor="Black" Margin="0,0,10,0" />
-                                    <Label Text="{Binding Descendants, StringFormat='{0} comments'}" FontSize="12" TextColor="Black" Margin="0,0,10,0"/>
-                                    <Label Text="{Binding DateTime, StringFormat='Posted: {0}'}" FontSize="12" TextColor="Black" Margin="0,0,10,0"/>
+                                    <Label Text="{Binding By, StringFormat='By: {0}'}" FontSize="10" LineBreakMode="CharacterWrap" TextColor="Black" Margin="0,0,7,0" />
+                                    <Label Text="{Binding Score, StringFormat='{0} points'}" FontSize="10" TextColor="Black" Margin="0,0,7,0" />
+                                    <Label Text="{Binding Descendants, StringFormat='{0} comments'}" FontSize="10" TextColor="Black" Margin="0,0,7,0"/>
+                                    <Label Text="{Binding DateTime, StringFormat='Posted: {0}'}" LineBreakMode="CharacterWrap" MaximumWidthRequest="100" FontSize="10" TextColor="Black" Margin="0,0,7,0" />
                                 </HorizontalStackLayout>
+                                <Button Text="Open Post" Clicked="OpenSelectedPost_SelectionChanged" Margin="5" />
                             </VerticalStackLayout>
                         </Frame>
                     </DataTemplate>

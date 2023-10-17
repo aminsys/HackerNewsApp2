@@ -11,9 +11,9 @@ public partial class HackerNewsTopPage : ContentPage
     private const string ApiUrl = "https://hacker-news.firebaseio.com/v0/item/";
 
     public HackerNewsTopPage()
-	{
-		InitializeComponent();
-	}
+    {
+        InitializeComponent();
+    }
 
     protected override async void OnAppearing()
     {
@@ -72,17 +72,17 @@ public partial class HackerNewsTopPage : ContentPage
         }
     }
 
-    private async void OpenSelectedPost_SelectionChanged(object sender, SelectionChangedEventArgs e)
+    private async void OpenSelectedPost_SelectionChanged(object sender, EventArgs e)
     {
-        Debug.WriteLine("Selected Item ID: " + (e.CurrentSelection.FirstOrDefault() as HackerNewsPostModel).Id);
-        HackerNewsPostModel post = (e.CurrentSelection.FirstOrDefault() as HackerNewsPostModel);
-        if(post.Text != null)
-        {
-            await Navigation.PushAsync(new PostContentPage(post));
-        }
-        else
-        {
-            await Navigation.PushAsync(new WebPage(post.Url));
-        }
+        Debug.WriteLine("News Top Page clicked!");
+        //HackerNewsPostModel post = (e.CurrentSelection.FirstOrDefault() as HackerNewsPostModel);
+        //if (post.Text != null)
+        //{
+        //    await Navigation.PushAsync(new PostContentPage(post));
+        //}
+        //else
+        //{
+        //    await Navigation.PushAsync(new WebPage(post.Url));
+        //}
     }
 }
