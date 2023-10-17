@@ -72,17 +72,10 @@ public partial class HackerNewsTopPage : ContentPage
         }
     }
 
-    private async void OpenSelectedPost_SelectionChanged(object sender, EventArgs e)
+    private async void OpenSelectedPost_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
-        Debug.WriteLine("News Top Page clicked!");
-        //HackerNewsPostModel post = (e.CurrentSelection.FirstOrDefault() as HackerNewsPostModel);
-        //if (post.Text != null)
-        //{
-        //    await Navigation.PushAsync(new PostContentPage(post));
-        //}
-        //else
-        //{
-        //    await Navigation.PushAsync(new WebPage(post.Url));
-        //}
+        Debug.WriteLine("Top post clicked");
+        HackerNewsPostModel post = (e.CurrentSelection.FirstOrDefault() as HackerNewsPostModel);
+        await Navigation.PushAsync(new PostContentPage(post));
     }
 }

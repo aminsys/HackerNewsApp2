@@ -1,3 +1,5 @@
+using CommunityToolkit.Maui.Alerts;
+using CommunityToolkit.Maui.Core;
 using HackerNewsApp2.Model;
 using System.Diagnostics;
 using System.Net.Http.Json;
@@ -69,6 +71,24 @@ public partial class PostContentPage : ContentPage
         {
             Debug.WriteLine($"Error: {ex.Message}");
             return new List<HackerNewsPostModel>();
+        }
+    }
+
+    private async void PostCollectionView_SelectionChanged(object sender, SelectionChangedEventArgs e)
+    {
+        HackerNewsPostModel post = (e.CurrentSelection.FirstOrDefault() as HackerNewsPostModel);
+        if(post.Url != null)
+        {
+            await Navigation.PushAsync(new WebPage(post.Url));
+        }
+        
+        else
+        {
+            string text = "This post is not URL based.";
+            ToastDuration duration = ToastDuration.Short;
+            double fontSize = 14;
+            var toast = Toast.Make(text, duration, fontSize);
+            await toast.Show();
         }
     }
 }

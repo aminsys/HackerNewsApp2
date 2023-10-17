@@ -10,9 +10,9 @@
                         BackgroundColor="Gray">
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
-                        <Frame BackgroundColor="LightGray" Margin="10">
-                            <VerticalStackLayout>
-                                <Label Text="{Binding Title}" FontSize="18" FontAttributes="Bold" Margin="0,0,0,10" MaximumWidthRequest="350" TextColor="Black"/>
+                        <Border BackgroundColor="LightGray" Margin="10">
+                            <VerticalStackLayout Padding="10">
+                                <Label Text="{Binding Title}" FontSize="18" FontAttributes="Bold" Margin="0,0,0,10" MaximumWidthRequest="400" TextColor="Black"/>
                                 <Label x:Name="textLabel" Text="{Binding Text}" FontSize="16" LineBreakMode="CharacterWrap" MaxLines="3" 
                 HorizontalOptions="Start" TextColor="Black" MaximumWidthRequest="300"/>
 
@@ -22,9 +22,8 @@
                                     <Label Text="{Binding Descendants, StringFormat='{0} comments'}" FontSize="10" TextColor="Black" Margin="0,0,7,0"/>
                                     <Label Text="{Binding DateTime, StringFormat='Posted: {0}'}" LineBreakMode="CharacterWrap" MaximumWidthRequest="100" FontSize="10" TextColor="Black" Margin="0,0,7,0" />
                                 </HorizontalStackLayout>
-                                <Button Text="Open Post" Clicked="OpenSelectedPost_SelectionChanged" Margin="5" />
                             </VerticalStackLayout>
-                        </Frame>
+                        </Border>
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
             </CollectionView>
