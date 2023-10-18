@@ -13,7 +13,7 @@
                         <Border BackgroundColor="LightGray" Margin="10">
                             <VerticalStackLayout Padding="10">
                                 <Label Text="{Binding Title}" FontSize="18" FontAttributes="Bold" Margin="0,0,0,10" 
-                                       MaximumWidthRequest="400" TextColor="Black"/>
+                                       MaximumWidthRequest="400" LineBreakMode="CharacterWrap" TextColor="Black"/>
                                 <Label x:Name="textLabel" Text="{Binding Text}" FontSize="16" LineBreakMode="CharacterWrap" MaxLines="3" 
                 HorizontalOptions="Start" TextColor="Black" MaximumWidthRequest="300"/>
 
@@ -28,7 +28,7 @@
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
             </CollectionView>
-            <Button Text="Update List" Clicked="OnFetchNewsClicked" Margin="10" WidthRequest="200"/>
+            <Button Text="Update List" TextColor="#ff9800" Clicked="OnFetchNewsClicked" Margin="10" WidthRequest="200"/>
             <ActivityIndicator x:Name="loadingIndicator" IsRunning="True" IsVisible="True"
                    HorizontalOptions="Center" VerticalOptions="Center"/>
         </StackLayout>
