@@ -52,17 +52,6 @@ public partial class PostContentPage : ContentPage
                         }
                     }
                 }
-
-                //else
-                //{
-                //    string text = "There are no comments for this post... yet!";
-                //    ToastDuration duration = ToastDuration.Short;
-                //    double fontSize = 14;
-                //    var toast = Toast.Make(text, duration, fontSize);
-                //    await toast.Show();
-                //}
-
-
             }
             return kidsContent;
         }
