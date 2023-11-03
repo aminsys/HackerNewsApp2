@@ -2,15 +2,16 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="HackerNewsApp2.View.HackerNewsTopPage"
+             Shell.BackgroundColor="Orange"
              Title="Top Posts">
     <ScrollView>
         <StackLayout>
             <CollectionView x:Name="NewsCollectionView" Margin="10" ItemsLayout="VerticalList" 
                         SelectedItem="1" SelectionMode="Single" SelectionChanged="OpenSelectedPost_SelectionChanged"
-                        BackgroundColor="Gray">
+                        BackgroundColor="AntiqueWhite">
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
-                        <Border BackgroundColor="LightGray" Margin="10">
+                        <Border BackgroundColor="AntiqueWhite" Margin="10">
                             <VerticalStackLayout Padding="10">
                                 <Label Text="{Binding Title}" FontSize="18" FontAttributes="Bold" Margin="0,0,0,10" 
                                        MaximumWidthRequest="350" TextColor="Black"/>
@@ -28,8 +29,8 @@
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
             </CollectionView>
-            <Button Text="Update List" TextColor="#ff9800" Clicked="OnFetchNewsClicked" Margin="10" WidthRequest="200"/>
-            <ActivityIndicator x:Name="loadingIndicator" IsRunning="True" IsVisible="True" 
+            <Button Text="Update List" TextColor="#ff9800" BackgroundColor="AntiqueWhite" Clicked="OnFetchNewsClicked" Margin="10" WidthRequest="200"/>
+            <ActivityIndicator x:Name="loadingIndicator" Color="Orange" IsRunning="True" IsVisible="True" 
                                HorizontalOptions="Center" VerticalOptions="Center"/>
         </StackLayout>
     </ScrollView>

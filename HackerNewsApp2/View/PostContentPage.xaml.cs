@@ -20,7 +20,7 @@ public partial class PostContentPage : ContentPage
     public PostContentPage(HackerNewsPostModel post)
     {
         InitializeComponent();
-        this.postObject = post;
+        postObject = post;
     }
 
     protected override async void OnAppearing()
@@ -37,7 +37,8 @@ public partial class PostContentPage : ContentPage
         List<HackerNewsPostModel> kidsContent = new List<HackerNewsPostModel>();
         try
         {
-            kidsContent.Add(this.postObject); // to get full text of post
+            kidsContent.Add(postObject); // to get full text of post
+            this.Title = postObject.Title;
             using (HttpClient client = new HttpClient())
             {
                 if (postObject.Kids != null)

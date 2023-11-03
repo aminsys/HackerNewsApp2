@@ -2,11 +2,12 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="HackerNewsApp2.MainPage"
+             Shell.BackgroundColor="Orange"
              Title="Appified Hacker News">
-    <VerticalStackLayout>
+    <VerticalStackLayout BackgroundColor="AntiqueWhite">
         <Label Text="Welcome to the Appified version of Hacker News, This app displays the five most recent posts from Ask HN."
           HorizontalOptions="Center" SemanticProperties.HeadingLevel="Level1" FontSize="18"/>
-        <ActivityIndicator x:Name="loadingIndicator" IsRunning="True" IsVisible="True" 
+        <ActivityIndicator x:Name="loadingIndicator" Color="Orange" IsRunning="True" IsVisible="True" 
            HorizontalOptions="Center" VerticalOptions="End"/>
     </VerticalStackLayout>
 
