@@ -37,8 +37,12 @@ public partial class PostContentPage : ContentPage
         List<HackerNewsPostModel> kidsContent = new List<HackerNewsPostModel>();
         try
         {
-            kidsContent.Add(postObject); // to get full text of post
+            // kidsContent.Add(postObject); // to get full text of post
+            var displayInfo = DeviceDisplay.Current.MainDisplayInfo;
             this.Title = postObject.Title;
+            PostTitle.Text = postObject.Title;
+            PostText.Text = postObject.Text;
+            Debug.WriteLine("Window Width phone: " + displayInfo.Width);
             using (HttpClient client = new HttpClient())
             {
                 if (postObject.Kids != null)
