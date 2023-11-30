@@ -11,33 +11,27 @@ public partial class HackerNewsAskPage : ContentPage
 
     private const string AskStories = "https://hacker-news.firebaseio.com/v0/askstories.json";
     private const string ApiUrl = "https://hacker-news.firebaseio.com/v0/item/";
-    private int postCounter = 0;
+    private bool isLoading = false;
     private List<string> askItemsTrimmed;
     private ObservableCollection<HackerNewsPostModel> newsItems;
 
     public HackerNewsAskPage()
 	{
 		InitializeComponent();
-	}
+
+        NewsCollectionView.RemainingItemsThreshold = 2;
+        NewsCollectionView.RemainingItemsThresholdReached += NewsCollectionView_RemainingItemsThresholdReached;
+    }
 
     protected override async void OnAppearing()
     {
         base.OnAppearing();
-        
+
         await GetPostItems();
-        postCounter = 0;
 
         newsItems = await FetchNewsAsync();
         NewsCollectionView.ItemsSource = newsItems;
-        //loadingIndicator.IsRunning = false;
-        //loadingIndicator.IsVisible = false;
     }
-
-    /*private async void OnFetchMoreNewsClicked(object sender, EventArgs e)
-    {
-        newsItems = await FetchNewsAsync();
-        NewsCollectionView.ItemsSource = newsItems;
-    }*/
 
     private async Task<ObservableCollection<HackerNewsPostModel>> FetchNewsAsync()
     {
@@ -47,8 +41,7 @@ public partial class HackerNewsAskPage : ContentPage
             {
                 ObservableCollection<HackerNewsPostModel> newsItems = new ObservableCollection<HackerNewsPostModel>();
 
-                //foreach (var item in askItemsTrimmed)
-                for(int i = postCounter; i < 9; i++)
+                for(int i = 0; i < 9; i++)
                 {
                     HttpResponseMessage response = await client.GetAsync(ApiUrl + askItemsTrimmed[i] + ".json");
                     var jsonItem = await response.Content.ReadFromJsonAsync<HackerNewsPostModel>();
@@ -59,13 +52,18 @@ public partial class HackerNewsAskPage : ContentPage
                     
                     if(!jsonItem.Deleted){
                         newsItems.Add(jsonItem);
-                        postCounter++;
                     }
                 }
-                Debug.WriteLine("Number of posts BEFORE deletíng: " + askItemsTrimmed.Count());
-                askItemsTrimmed.RemoveRange(0, postCounter);
-                Debug.WriteLine("Number of posts AFTER deletíng: " + askItemsTrimmed.Count());
-                postCounter = 0;
+                Debug.WriteLine("Number of posts BEFORE deleting: " + askItemsTrimmed.Count());
+                if(askItemsTrimmed.Count < 9)
+                {
+                    askItemsTrimmed.RemoveRange(0, askItemsTrimmed.Count);
+                }
+                else
+                {
+                    askItemsTrimmed.RemoveRange(0, 9);
+                }
+                Debug.WriteLine("Number of posts AFTER deleting: " + askItemsTrimmed.Count());
                 return newsItems;
             }
         }
@@ -101,11 +99,26 @@ public partial class HackerNewsAskPage : ContentPage
 
     private async void NewsCollectionView_RemainingItemsThresholdReached(object sender, EventArgs e)
     {
-        var moreNewsItems = await FetchNewsAsync();
-        foreach (var item in moreNewsItems)
+        if (!isLoading && askItemsTrimmed.Count > 0)
         {
-            newsItems.Add(item);
-            Debug.WriteLine("#### Should have gotten new posts now ####");
+            isLoading = true;
+            loadingIndicator.IsRunning = true;
+            loadingIndicator.IsVisible = true;
+
+            try
+            {
+                var moreNewsItems = await FetchNewsAsync();
+                foreach (var item in moreNewsItems)
+                {
+                    newsItems.Add(item);
+                }
+            }
+            finally
+            {
+                isLoading = false;
+                loadingIndicator.IsRunning = false;
+                loadingIndicator.IsVisible = false;
+            }
         }
     }
 }
