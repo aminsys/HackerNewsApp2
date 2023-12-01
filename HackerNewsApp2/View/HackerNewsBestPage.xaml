@@ -29,7 +29,6 @@
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
             </CollectionView>
-            <Button Text="Update List" TextColor="#ff9800" BackgroundColor="AntiqueWhite" Clicked="OnFetchNewsClicked" Margin="10" WidthRequest="200"/>
             <ActivityIndicator x:Name="loadingIndicator" Color="Orange" IsRunning="True" IsVisible="True" 
                                HorizontalOptions="Center" VerticalOptions="Center"/>
         </StackLayout>

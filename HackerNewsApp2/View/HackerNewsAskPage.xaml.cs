@@ -1,5 +1,4 @@
 using HackerNewsApp2.Model;
-using HtmlAgilityPack;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Net.Http.Json;
@@ -79,6 +78,7 @@ public partial class HackerNewsAskPage : ContentPage
                         newsItems.Add(jsonItem);
                     }
                 }
+
                 if(askItemsTrimmed.Count < 9)
                 {
                     askItemsTrimmed.RemoveRange(0, askItemsTrimmed.Count);
@@ -87,6 +87,7 @@ public partial class HackerNewsAskPage : ContentPage
                 {
                     askItemsTrimmed.RemoveRange(0, 9);
                 }
+
                 return newsItems;
             }
         }
