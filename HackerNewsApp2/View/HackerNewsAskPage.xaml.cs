@@ -23,6 +23,31 @@ public partial class HackerNewsAskPage : ContentPage
         NewsCollectionView.RemainingItemsThresholdReached += NewsCollectionView_RemainingItemsThresholdReached;
     }
 
+    private async void NewsCollectionView_RemainingItemsThresholdReached(object sender, EventArgs e)
+    {
+        if (!isLoading && askItemsTrimmed.Count > 0)
+        {
+            isLoading = true;
+            loadingIndicator.IsRunning = true;
+            loadingIndicator.IsVisible = true;
+
+            try
+            {
+                var moreNewsItems = await FetchNewsAsync();
+                foreach (var item in moreNewsItems)
+                {
+                    newsItems.Add(item);
+                }
+            }
+            finally
+            {
+                isLoading = false;
+                loadingIndicator.IsRunning = false;
+                loadingIndicator.IsVisible = false;
+            }
+        }
+    }
+
     protected override async void OnAppearing()
     {
         base.OnAppearing();
@@ -54,7 +79,6 @@ public partial class HackerNewsAskPage : ContentPage
                         newsItems.Add(jsonItem);
                     }
                 }
-                Debug.WriteLine("Number of posts BEFORE deleting: " + askItemsTrimmed.Count());
                 if(askItemsTrimmed.Count < 9)
                 {
                     askItemsTrimmed.RemoveRange(0, askItemsTrimmed.Count);
@@ -63,7 +87,6 @@ public partial class HackerNewsAskPage : ContentPage
                 {
                     askItemsTrimmed.RemoveRange(0, 9);
                 }
-                Debug.WriteLine("Number of posts AFTER deleting: " + askItemsTrimmed.Count());
                 return newsItems;
             }
         }
@@ -95,30 +118,5 @@ public partial class HackerNewsAskPage : ContentPage
     {
         HackerNewsPostModel post = (e.CurrentSelection.FirstOrDefault() as HackerNewsPostModel);
         await Navigation.PushAsync(new PostContentPage(post));
-    }
-
-    private async void NewsCollectionView_RemainingItemsThresholdReached(object sender, EventArgs e)
-    {
-        if (!isLoading && askItemsTrimmed.Count > 0)
-        {
-            isLoading = true;
-            loadingIndicator.IsRunning = true;
-            loadingIndicator.IsVisible = true;
-
-            try
-            {
-                var moreNewsItems = await FetchNewsAsync();
-                foreach (var item in moreNewsItems)
-                {
-                    newsItems.Add(item);
-                }
-            }
-            finally
-            {
-                isLoading = false;
-                loadingIndicator.IsRunning = false;
-                loadingIndicator.IsVisible = false;
-            }
-        }
     }
 }
