@@ -1,3 +1,4 @@
+using HackerNewsApp2.API;
 using HackerNewsApp2.Model;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
@@ -13,10 +14,12 @@ public partial class HackerNewsAskPage : ContentPage
     private bool isLoading = false;
     private List<string> askItemsTrimmed;
     private ObservableCollection<HackerNewsPostModel> newsItems;
+    private APICaller apiCaller;
 
     public HackerNewsAskPage()
 	{
 		InitializeComponent();
+        apiCaller = new APICaller();
 
         NewsCollectionView.RemainingItemsThreshold = 2;
         NewsCollectionView.RemainingItemsThresholdReached += NewsCollectionView_RemainingItemsThresholdReached;
@@ -32,7 +35,7 @@ public partial class HackerNewsAskPage : ContentPage
 
             try
             {
-                var moreNewsItems = await FetchNewsAsync();
+                var moreNewsItems = await apiCaller.FetchNewsAsync(ApiUrl, askItemsTrimmed);
                 foreach (var item in moreNewsItems)
                 {
                     newsItems.Add(item);
@@ -51,68 +54,9 @@ public partial class HackerNewsAskPage : ContentPage
     {
         base.OnAppearing();
 
-        await GetPostItems();
-
-        newsItems = await FetchNewsAsync();
+        askItemsTrimmed = await apiCaller.GetPostItems(AskStories);
+        newsItems = await apiCaller.FetchNewsAsync(ApiUrl, askItemsTrimmed);
         NewsCollectionView.ItemsSource = newsItems;
-    }
-
-    private async Task<ObservableCollection<HackerNewsPostModel>> FetchNewsAsync()
-    {
-        try
-        {
-            using (HttpClient client = new HttpClient())
-            {
-                ObservableCollection<HackerNewsPostModel> newsItems = new ObservableCollection<HackerNewsPostModel>();
-
-                for(int i = 0; i < 9; i++)
-                {
-                    HttpResponseMessage response = await client.GetAsync(ApiUrl + askItemsTrimmed[i] + ".json");
-                    var jsonItem = await response.Content.ReadFromJsonAsync<HackerNewsPostModel>();
-                    if (string.IsNullOrEmpty(jsonItem.Text))
-                    {
-                        jsonItem.Text = jsonItem.Url;
-                    }
-                    
-                    if(!jsonItem.Deleted){
-                        newsItems.Add(jsonItem);
-                    }
-                }
-
-                if(askItemsTrimmed.Count < 9)
-                {
-                    askItemsTrimmed.RemoveRange(0, askItemsTrimmed.Count);
-                }
-                else
-                {
-                    askItemsTrimmed.RemoveRange(0, 9);
-                }
-
-                return newsItems;
-            }
-        }
-        catch (Exception ex)
-        {
-            Debug.WriteLine($"Error: {ex.Message}");
-            return new ObservableCollection<HackerNewsPostModel>();
-        }
-    }
-
-    private async Task GetPostItems()
-    {
-        try
-        {
-            using(HttpClient client = new HttpClient())
-            {
-                HttpResponseMessage askPostIds = await client.GetAsync(AskStories);
-                string askItems = await askPostIds.Content.ReadAsStringAsync();
-                askItemsTrimmed = askItems.TrimStart('[').TrimEnd(']').Split(',').ToList();
-            }
-        }
-        catch (Exception ex)
-        {
-            Debug.WriteLine($"Error: {ex.Message}");
-        }
     }
 
     private async void OpenSelectedPost_SelectionChanged(object sender, SelectionChangedEventArgs e)
