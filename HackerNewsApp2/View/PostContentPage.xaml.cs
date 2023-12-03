@@ -1,6 +1,7 @@
 using CommunityToolkit.Maui.Alerts;
 using CommunityToolkit.Maui.Core;
 using HackerNewsApp2.Model;
+using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Net.Http.Json;
 
@@ -11,6 +12,8 @@ public partial class PostContentPage : ContentPage
 
     private const string apiUrl = "https://hacker-news.firebaseio.com/v0/item/";
     private readonly HackerNewsPostModel postObject;
+    private bool isLoading = false;
+    private ObservableCollection<HackerNewsPostModel> kidsItems;
 
     public PostContentPage()
     {
@@ -21,50 +24,94 @@ public partial class PostContentPage : ContentPage
     {
         InitializeComponent();
         postObject = post;
+
+
+        PostCollectionView.RemainingItemsThreshold = 2;
+        PostCollectionView.RemainingItemsThresholdReached += PostCollectionView_RemainingItemsThresholdReached;
+    }
+
+    private async void PostCollectionView_RemainingItemsThresholdReached(object sender, EventArgs e)
+    {
+        if (!isLoading && postObject.Kids.Length > 0)
+        {
+            isLoading = true;
+            loadingIndicator.IsRunning = true;
+            loadingIndicator.IsVisible = true;
+
+            try
+            {
+                Debug.WriteLine("Loading more comments. Number of Kids left: " + postObject.Kids.Length);
+                var moreNewsItems = await FetchPostAsync();
+                foreach (var item in moreNewsItems)
+                {
+                    kidsItems.Add(item);
+                }
+            }
+            finally
+            {
+                isLoading = false;
+                loadingIndicator.IsRunning = false;
+                loadingIndicator.IsVisible = false;
+            }
+        }
     }
 
     protected override async void OnAppearing()
     {
         base.OnAppearing();
-        List<HackerNewsPostModel> kidsItems = await FetchPostAsync();
+        kidsItems = await FetchPostAsync();
         PostCollectionView.ItemsSource = kidsItems;
         loadingIndicator.IsRunning = false;
         loadingIndicator.IsVisible = false;
     }
 
-    private async Task<List<HackerNewsPostModel>> FetchPostAsync()
+    private async Task<ObservableCollection<HackerNewsPostModel>> FetchPostAsync()
     {
-        List<HackerNewsPostModel> kidsContent = new List<HackerNewsPostModel>();
+        ObservableCollection<HackerNewsPostModel>  kidsContent = new ObservableCollection<HackerNewsPostModel>();
         try
         {
-            // kidsContent.Add(postObject); // to get full text of post
-            var displayInfo = DeviceDisplay.Current.MainDisplayInfo;
             this.Title = postObject.Title;
             PostTitle.Text = postObject.Title;
             PostText.Text = postObject.Text;
-            Debug.WriteLine("Window Width phone: " + displayInfo.Width);
             using (HttpClient client = new HttpClient())
             {
                 if (postObject.Kids != null)
                 {
-                    foreach (var kid in postObject.Kids)
+                    for(int i = 0; i < postObject.Kids.Length; i++)
                     {
-                        HttpResponseMessage response = await client.GetAsync(apiUrl + kid + ".json");
+                        Debug.WriteLine("postObject.Kids[i]: " + postObject.Kids[i]);
+                        HttpResponseMessage response = await client.GetAsync(apiUrl + postObject.Kids[i] + ".json");
                         var kidItem = await response.Content.ReadFromJsonAsync<HackerNewsPostModel>();
                         if (kidItem != null && !kidItem.Dead)
                         {
                             kidsContent.Add(kidItem);
                         }
+                        if(i > 9)
+                        {
+                            break;
+                        }
                     }
                 }
             }
+
+            var tempList = postObject.Kids.ToList();
+            if(tempList.Count < 9)
+            {
+                tempList.RemoveRange(0, tempList.Count());
+            }
+            else
+            {
+                tempList.RemoveRange(0, 9);
+
+            }
+            postObject.Kids = tempList.ToArray();
             return kidsContent;
         }
 
         catch (Exception ex)
         {
             Debug.WriteLine($"Error: {ex.Message}");
-            return new List<HackerNewsPostModel>();
+            return new ObservableCollection<HackerNewsPostModel>();
         }
     }
 

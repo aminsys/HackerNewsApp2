@@ -9,6 +9,7 @@
                    MaximumWidthRequest="350" TextColor="Black" Margin="0,10,0,-10"/>
             <Label x:Name="PostText" FontSize="16" LineBreakMode="CharacterWrap"
                    HorizontalOptions="Start" TextColor="Black" MaximumWidthRequest="375" Margin="10" Padding="10"/>
+            <Label Text="Comments"  HorizontalOptions="Start" TextColor="Black" Margin="10,0,0,0" Padding="10,0,0,5" FontAttributes="Bold"/>
             <CollectionView x:Name="PostCollectionView" Margin="10" ItemsLayout="VerticalList" BackgroundColor="AntiqueWhite">
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
@@ -19,7 +20,6 @@
                                 <HorizontalStackLayout Margin="0,10,0,0">
                                     <Label Text="{Binding By, StringFormat='By: {0}'}" FontSize="10" TextColor="Black" Margin="0,0,7,0" />
                                     <Label Text="{Binding Score, StringFormat='{0} points'}" FontSize="10" TextColor="Black" Margin="0,0,7,0" />
-                                    <!--<Label Text="{Binding Descendants, StringFormat='{0} comments'}" FontSize="10" TextColor="Black" Margin="0,0,7,0"/>-->
                                     <Label Text="{Binding DateTime, StringFormat='Posted: {0}'}" FontSize="10" LineBreakMode="CharacterWrap" MaximumWidthRequest="100" TextColor="Black" Margin="0,0,7,0" />
                                 </HorizontalStackLayout>
                             </VerticalStackLayout>
