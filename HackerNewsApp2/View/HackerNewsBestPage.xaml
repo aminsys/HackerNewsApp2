@@ -4,33 +4,30 @@
              x:Class="HackerNewsApp2.View.HackerNewsBestPage"
              Shell.BackgroundColor="Orange"
              Title="Best Posts">
-    <ScrollView>
-        <StackLayout>
-            <CollectionView x:Name="NewsCollectionView" Margin="10" ItemsLayout="VerticalList" 
+    <CollectionView x:Name="NewsCollectionView" Margin="10" ItemsLayout="VerticalList" 
                         SelectedItem="1" SelectionMode="Single" BackgroundColor="AntiqueWhite" SelectionChanged="OpenSelectedPost_SelectionChanged">
-                <CollectionView.ItemTemplate>
-                    <DataTemplate>
-                        <Border BackgroundColor="AntiqueWhite" Margin="10">
-                            <VerticalStackLayout Padding="10">
-                                <Label Text="{Binding Title}" FontSize="18" FontAttributes="Bold" Margin="0,0,0,10" 
+        <CollectionView.ItemTemplate>
+            <DataTemplate>
+                <Border BackgroundColor="AntiqueWhite" Margin="10">
+                    <VerticalStackLayout Padding="10">
+                        <Label Text="{Binding Title}" FontSize="18" FontAttributes="Bold" Margin="0,0,0,10" 
                                        MaximumWidthRequest="400" TextColor="Black"/>
-                                <Label x:Name="textLabel" Text="{Binding Text}" FontSize="16" LineBreakMode="CharacterWrap" MaxLines="3" 
+                        <Label x:Name="textLabel" Text="{Binding Text}" FontSize="16" LineBreakMode="CharacterWrap" MaxLines="3" 
                                         HorizontalOptions="Start" TextColor="Black" MaximumWidthRequest="300"/>
 
-                                <HorizontalStackLayout Margin="0,10,0,0">
-                                    <Label Text="{Binding By, StringFormat='By: {0}'}" FontSize="10" LineBreakMode="CharacterWrap" TextColor="Black" Margin="0,0,7,0" />
-                                    <Label Text="{Binding Score, StringFormat='{0} points'}" FontSize="10" TextColor="Black" Margin="0,0,7,0" />
-                                    <Label Text="{Binding Descendants, StringFormat='{0} comments'}" FontSize="10" TextColor="Black" Margin="0,0,7,0"/>
-                                    <Label Text="{Binding DateTime, StringFormat='Posted: {0}'}" LineBreakMode="CharacterWrap" MaximumWidthRequest="100" FontSize="10" TextColor="Black" Margin="0,0,7,0" />
-                                </HorizontalStackLayout>
-                                <Button x:Name="PostButton" IsVisible="false" Text="Update List" Margin="10" WidthRequest="200"/>
-                            </VerticalStackLayout>
-                        </Border>
-                    </DataTemplate>
-                </CollectionView.ItemTemplate>
-            </CollectionView>
-            <ActivityIndicator x:Name="loadingIndicator" Color="Orange" IsRunning="True" IsVisible="True" 
-                               HorizontalOptions="Center" VerticalOptions="Center"/>
-        </StackLayout>
-    </ScrollView>
+                        <HorizontalStackLayout Margin="0,10,0,0">
+                            <Label Text="{Binding By, StringFormat='By: {0}'}" FontSize="10" LineBreakMode="CharacterWrap" TextColor="Black" Margin="0,0,7,0" />
+                            <Label Text="{Binding Score, StringFormat='{0} points'}" FontSize="10" TextColor="Black" Margin="0,0,7,0" />
+                            <Label Text="{Binding Descendants, StringFormat='{0} comments'}" FontSize="10" TextColor="Black" Margin="0,0,7,0"/>
+                            <Label Text="{Binding DateTime, StringFormat='Posted: {0}'}" LineBreakMode="CharacterWrap" MaximumWidthRequest="100" FontSize="10" TextColor="Black" Margin="0,0,7,0" />
+                        </HorizontalStackLayout>
+                        <Button x:Name="PostButton" IsVisible="false" Text="Update List" Margin="10" WidthRequest="200"/>
+                    </VerticalStackLayout>
+                </Border>
+            </DataTemplate>
+        </CollectionView.ItemTemplate>
+        <CollectionView.Footer>
+            <ActivityIndicator x:Name="loadingIndicator" Color="Orange" HorizontalOptions="Center" VerticalOptions="Center"/>
+        </CollectionView.Footer>
+    </CollectionView>
 </ContentPage>
