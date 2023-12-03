@@ -1,4 +1,5 @@
-﻿using System;
+﻿using HtmlAgilityPack;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -55,12 +56,35 @@ namespace HackerNewsApp2.Model
         {
             get
             {
+                HtmlDocument doc = new HtmlDocument();
                 try
                 {
                     text = WebUtility.HtmlDecode(text);
-                    return Regex.Replace(text, @"<p>", Environment.NewLine);
+                    doc.LoadHtml(text);
+                    var root = doc.DocumentNode;
+                    var sb = new StringBuilder();
+                    foreach (var node in root.DescendantsAndSelf())
+                    {
+                        if (!node.HasChildNodes)
+                        {
+                            string text = node.InnerHtml;
+                            if (!string.IsNullOrEmpty(text))
+                            {
+                                sb.AppendLine(text.Trim());
+                            }
+                        }
+                    }
+                    text = sb.ToString();
+                    
+                    //text = Regex.Replace(text, @"<a>", Environment.NewLine);
+
+                    return text; //Regex.Replace(text, @"<p>", Environment.NewLine);
                 }
-                catch { return null; }                
+                catch (Exception e)
+                {
+                    Debug.WriteLine("Error while converting text property:\n" + e.Message);
+                    return null;
+                }
             }
             set => text = value;
         }
