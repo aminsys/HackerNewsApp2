@@ -10,114 +10,60 @@ namespace HackerNewsApp2.View;
 public partial class PostContentPage : ContentPage
 {
 
-    private const string apiUrl = "https://hacker-news.firebaseio.com/v0/item/";
-    private readonly HackerNewsPostModel postObject;
-    private bool isLoading = false;
-    private ObservableCollection<HackerNewsPostModel> kidsItems;
+    private const string apiUrl = "https://hn.algolia.com/api/v1/items/";
+    private readonly HNAlgoliaModel postObject;
+    private ObservableCollection<HNAlgoliaModel> ChildrenItems;
 
     public PostContentPage()
     {
         InitializeComponent();
     }
 
-    public PostContentPage(HackerNewsPostModel post)
+    public PostContentPage(HNAlgoliaModel post)
     {
         InitializeComponent();
         postObject = post;
-
-
-        PostCollectionView.RemainingItemsThreshold = 2;
-        PostCollectionView.RemainingItemsThresholdReached += PostCollectionView_RemainingItemsThresholdReached;
     }
 
-    private async void PostCollectionView_RemainingItemsThresholdReached(object sender, EventArgs e)
-    {
-        if (!isLoading && postObject.Kids.Length > 0)
-        {
-            isLoading = true;
-            loadingIndicator.IsRunning = true;
-            loadingIndicator.IsVisible = true;
-
-            try
-            {
-                Debug.WriteLine("Loading more comments. Number of Kids left: " + postObject.Kids.Length);
-                var moreNewsItems = await FetchPostAsync();
-                foreach (var item in moreNewsItems)
-                {
-                    kidsItems.Add(item);
-                }
-            }
-            finally
-            {
-                isLoading = false;
-                loadingIndicator.IsRunning = false;
-                loadingIndicator.IsVisible = false;
-            }
-        }
-    }
 
     protected override async void OnAppearing()
     {
         base.OnAppearing();
-        kidsItems = await FetchPostAsync();
-        PostCollectionView.ItemsSource = kidsItems;
+        ChildrenItems = await FetchPostAsync();
+        PostCollectionView.ItemsSource = ChildrenItems;
         loadingIndicator.IsRunning = false;
         loadingIndicator.IsVisible = false;
     }
 
-    private async Task<ObservableCollection<HackerNewsPostModel>> FetchPostAsync()
+    private async Task<ObservableCollection<HNAlgoliaModel>> FetchPostAsync()
     {
-        ObservableCollection<HackerNewsPostModel>  kidsContent = new ObservableCollection<HackerNewsPostModel>();
+        ObservableCollection<HNAlgoliaModel>  ChildrenContent = new ObservableCollection<HNAlgoliaModel>();
         try
         {
             this.Title = postObject.Title;
             PostTitle.Text = postObject.Title;
             PostText.Text = postObject.Text;
-            using (HttpClient client = new HttpClient())
+
+            foreach (HNAlgoliaModel child in postObject.Children)
             {
-                if (postObject.Kids != null)
-                {
-                    for(int i = 0; i < postObject.Kids.Length; i++)
-                    {
-                        Debug.WriteLine("postObject.Kids[i]: " + postObject.Kids[i]);
-                        HttpResponseMessage response = await client.GetAsync(apiUrl + postObject.Kids[i] + ".json");
-                        var kidItem = await response.Content.ReadFromJsonAsync<HackerNewsPostModel>();
-                        if (kidItem != null && !kidItem.Dead)
-                        {
-                            kidsContent.Add(kidItem);
-                        }
-                        if(i > 9)
-                        {
-                            break;
-                        }
-                    }
-                }
+                Debug.WriteLine("Comment Author: " + child.Author);
+                Debug.WriteLine("Comment Descendants: " + child.Descendants);
+                ChildrenContent.Add(child);
             }
 
-            var tempList = postObject.Kids.ToList();
-            if(tempList.Count < 9)
-            {
-                tempList.RemoveRange(0, tempList.Count());
-            }
-            else
-            {
-                tempList.RemoveRange(0, 9);
-
-            }
-            postObject.Kids = tempList.ToArray();
-            return kidsContent;
+            return ChildrenContent;
         }
 
         catch (Exception ex)
         {
             Debug.WriteLine($"Error: {ex.Message}");
-            return new ObservableCollection<HackerNewsPostModel>();
+            return new ObservableCollection<HNAlgoliaModel>();
         }
     }
 
     private async void PostCollectionView_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
-        HackerNewsPostModel post = (e.CurrentSelection.FirstOrDefault() as HackerNewsPostModel);
+        HNAlgoliaModel post = (e.CurrentSelection.FirstOrDefault() as HNAlgoliaModel);
         if(post.Url != null)
         {
             await Navigation.PushAsync(new WebPage(post.Url));

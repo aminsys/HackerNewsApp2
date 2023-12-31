@@ -9,8 +9,8 @@ namespace HackerNewsApp2.View;
 public partial class HackerNewsBestPage : ContentPage
 {
     private const string BestStories = "https://hacker-news.firebaseio.com/v0/beststories.json";
-    private const string ApiUrl = "https://hacker-news.firebaseio.com/v0/item/";
-    private ObservableCollection<HackerNewsPostModel> newsItems;
+    private const string ApiUrl = "https://hn.algolia.com/api/v1/items/";
+    private ObservableCollection<HNAlgoliaModel> newsItems;
     private bool isLoading = false;
     private List<string> bestItemsTrimmed;
     private APICaller apiCaller;
@@ -66,7 +66,7 @@ public partial class HackerNewsBestPage : ContentPage
 
     private async void OpenSelectedPost_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
-        HackerNewsPostModel post = (e.CurrentSelection.FirstOrDefault() as HackerNewsPostModel);
+        HNAlgoliaModel post = (e.CurrentSelection.FirstOrDefault() as HNAlgoliaModel);
         await Navigation.PushAsync(new PostContentPage(post));        
     }
 }
