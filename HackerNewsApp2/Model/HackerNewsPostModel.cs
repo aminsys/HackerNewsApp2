@@ -76,9 +76,7 @@ namespace HackerNewsApp2.Model
                     }
                     text = sb.ToString();
                     
-                    //text = Regex.Replace(text, @"<a>", Environment.NewLine);
-
-                    return text; //Regex.Replace(text, @"<p>", Environment.NewLine);
+                    return text;
                 }
                 catch (Exception e)
                 {
