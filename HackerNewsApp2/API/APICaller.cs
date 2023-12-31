@@ -12,6 +12,7 @@ namespace HackerNewsApp2.API
 {
     public class APICaller
     {
+        private int numberOfPostsToLoad = 6;
         internal async Task<ObservableCollection<HNAlgoliaModel>> FetchNewsAsync(string ApiUrl,List<string> itemsTrimmed)
         {
             try
@@ -20,7 +21,7 @@ namespace HackerNewsApp2.API
                 {
                     ObservableCollection<HNAlgoliaModel> newsItems = new ObservableCollection<HNAlgoliaModel>();
 
-                    for (int i = 0; i < 9; i++)
+                    for (int i = 0; i < numberOfPostsToLoad; i++)
                     {
                         HttpResponseMessage response = await client.GetAsync(ApiUrl + itemsTrimmed[i]);
                         var jsonItem = await response.Content.ReadFromJsonAsync<HNAlgoliaModel>();
@@ -34,13 +35,13 @@ namespace HackerNewsApp2.API
                         }
                     }
 
-                    if (itemsTrimmed.Count < 9)
+                    if (itemsTrimmed.Count < numberOfPostsToLoad)
                     {
                         itemsTrimmed.RemoveRange(0, itemsTrimmed.Count);
                     }
                     else
                     {
-                        itemsTrimmed.RemoveRange(0, 9);
+                        itemsTrimmed.RemoveRange(0, numberOfPostsToLoad);
                     }
 
                     return newsItems;

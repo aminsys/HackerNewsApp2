@@ -63,7 +63,6 @@ public partial class HackerNewsTopPage : ContentPage
 
     private async void OpenSelectedPost_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
-        Debug.WriteLine("Top post clicked");
         HNAlgoliaModel post = (e.CurrentSelection.FirstOrDefault() as HNAlgoliaModel);
         await Navigation.PushAsync(new PostContentPage(post));
     }

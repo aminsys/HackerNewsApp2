@@ -10,7 +10,6 @@ public partial class HackerNewsAskPage : ContentPage
 {
 
     private const string AskStories = "https://hacker-news.firebaseio.com/v0/askstories.json";
-    // private const string ApiUrl = "https://hacker-news.firebaseio.com/v0/item/";
     private const string ApiUrl = "https://hn.algolia.com/api/v1/items/";
     private bool isLoading = false;
     private List<string> askItemsTrimmed;
