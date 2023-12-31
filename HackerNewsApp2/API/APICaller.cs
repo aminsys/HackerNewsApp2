@@ -12,18 +12,19 @@ namespace HackerNewsApp2.API
 {
     public class APICaller
     {
-        internal async Task<ObservableCollection<HackerNewsPostModel>> FetchNewsAsync(string ApiUrl,List<string> itemsTrimmed)
+        private int numberOfPostsToLoad = 6;
+        internal async Task<ObservableCollection<HNAlgoliaModel>> FetchNewsAsync(string ApiUrl,List<string> itemsTrimmed)
         {
             try
             {
                 using (HttpClient client = new HttpClient())
                 {
-                    ObservableCollection<HackerNewsPostModel> newsItems = new ObservableCollection<HackerNewsPostModel>();
+                    ObservableCollection<HNAlgoliaModel> newsItems = new ObservableCollection<HNAlgoliaModel>();
 
-                    for (int i = 0; i < 9; i++)
+                    for (int i = 0; i < numberOfPostsToLoad; i++)
                     {
-                        HttpResponseMessage response = await client.GetAsync(ApiUrl + itemsTrimmed[i] + ".json");
-                        var jsonItem = await response.Content.ReadFromJsonAsync<HackerNewsPostModel>();
+                        HttpResponseMessage response = await client.GetAsync(ApiUrl + itemsTrimmed[i]);
+                        var jsonItem = await response.Content.ReadFromJsonAsync<HNAlgoliaModel>();
                         if (string.IsNullOrEmpty(jsonItem.Text))
                         {
                             jsonItem.Text = jsonItem.Url;
@@ -34,13 +35,13 @@ namespace HackerNewsApp2.API
                         }
                     }
 
-                    if (itemsTrimmed.Count < 9)
+                    if (itemsTrimmed.Count < numberOfPostsToLoad)
                     {
                         itemsTrimmed.RemoveRange(0, itemsTrimmed.Count);
                     }
                     else
                     {
-                        itemsTrimmed.RemoveRange(0, 9);
+                        itemsTrimmed.RemoveRange(0, numberOfPostsToLoad);
                     }
 
                     return newsItems;
@@ -49,7 +50,7 @@ namespace HackerNewsApp2.API
             catch (Exception ex)
             {
                 Debug.WriteLine($"Error: {ex.Message}");
-                return new ObservableCollection<HackerNewsPostModel>();
+                return new ObservableCollection<HNAlgoliaModel>();
             }
         }
 

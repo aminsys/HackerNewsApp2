@@ -10,10 +10,10 @@ public partial class HackerNewsAskPage : ContentPage
 {
 
     private const string AskStories = "https://hacker-news.firebaseio.com/v0/askstories.json";
-    private const string ApiUrl = "https://hacker-news.firebaseio.com/v0/item/";
+    private const string ApiUrl = "https://hn.algolia.com/api/v1/items/";
     private bool isLoading = false;
     private List<string> askItemsTrimmed;
-    private ObservableCollection<HackerNewsPostModel> newsItems;
+    private ObservableCollection<HNAlgoliaModel> newsItems;
     private APICaller apiCaller;
 
     public HackerNewsAskPage()
@@ -61,7 +61,7 @@ public partial class HackerNewsAskPage : ContentPage
 
     private async void OpenSelectedPost_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
-        HackerNewsPostModel post = (e.CurrentSelection.FirstOrDefault() as HackerNewsPostModel);
+        HNAlgoliaModel post = (e.CurrentSelection.FirstOrDefault() as HNAlgoliaModel);
         await Navigation.PushAsync(new PostContentPage(post));
     }
 }
