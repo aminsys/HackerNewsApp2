@@ -4,9 +4,9 @@
              x:Class="HackerNewsApp2.MainPage"
              Shell.BackgroundColor="Orange"
              Title="Appified Hacker News">
-    <VerticalStackLayout BackgroundColor="AntiqueWhite">
+    <VerticalStackLayout BackgroundColor="AntiqueWhite" Margin="10">
         <Label Text="Welcome to the Appified version of Hacker News, This app displays the five most recent posts from Ask HN."
-          HorizontalOptions="Center" FontSize="18" TextColor="Black"/>
+          HorizontalOptions="Center" FontSize="18" TextColor="Black" Margin="10"/>
         <ActivityIndicator x:Name="loadingIndicator" Color="Orange" IsRunning="True" IsVisible="True" 
            HorizontalOptions="Center" VerticalOptions="End"/>
     </VerticalStackLayout>
