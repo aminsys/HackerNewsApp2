@@ -55,9 +55,11 @@ public partial class PostContentPage : ContentPage
         }
     }
 
-    private async void PostCollectionView_SelectionChanged(object sender, SelectionChangedEventArgs e)
+    private async void TapGestureRecognizer_Tapped(object sender, TappedEventArgs e)
     {
-        HNAlgoliaModel post = (e.CurrentSelection.FirstOrDefault() as HNAlgoliaModel);
-        await Navigation.PushAsync(new WebPage(post.Url));
+        if (!string.IsNullOrEmpty(postObject.Url) && postObject.Text.Length - 1 == postObject.Url.Length)
+        {
+            await Navigation.PushAsync(new WebPage(postObject.Url));
+        }
     }
 }
