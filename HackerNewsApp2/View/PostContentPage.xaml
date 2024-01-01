@@ -4,7 +4,7 @@
              x:Class="HackerNewsApp2.View.PostContentPage"
              Shell.BackgroundColor="Orange">
     <ScrollView BackgroundColor="AntiqueWhite">
-        <StackLayout WidthRequest="{OnIdiom 100, Phone=400, Tablet=400, Desktop=700}">
+        <StackLayout WidthRequest="{OnIdiom 100, Phone=400, Tablet=600, Desktop=700}">
             <Label x:Name="PostTitle" FontSize="18" FontAttributes="Bold" 
                    TextColor="Black" Margin="10,10,0,-10" Padding="10"/>
             <Label x:Name="PostText" FontSize="15" LineBreakMode="CharacterWrap"
