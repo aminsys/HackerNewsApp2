@@ -8,7 +8,12 @@
             <Label x:Name="PostTitle" FontSize="18" FontAttributes="Bold" 
                    TextColor="Black" Margin="10,10,0,-10" Padding="10"/>
             <Label x:Name="PostText" FontSize="15" LineBreakMode="CharacterWrap"
-                   TextColor="Black" Margin="10" Padding="10"/>
+                   TextColor="Black" Margin="10" Padding="10">
+                <Label.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped">
+                    </TapGestureRecognizer>
+                </Label.GestureRecognizers>
+            </Label>
             <Label Text="Comments" TextColor="Black" 
                    Margin="10,0,0,0" Padding="10,0,0,5" FontAttributes="Bold"/>
             <CollectionView x:Name="PostCollectionView" Margin="10" ItemsLayout="VerticalList" BackgroundColor="AntiqueWhite">
