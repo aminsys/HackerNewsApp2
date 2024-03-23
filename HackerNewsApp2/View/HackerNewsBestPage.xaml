@@ -19,7 +19,7 @@
                             <Label Text="{Binding Author, StringFormat='By: {0}'}" FontSize="10" LineBreakMode="CharacterWrap" TextColor="Black" Margin="0,0,7,0" />
                             <Label Text="{Binding Points, StringFormat='{0} points'}" FontSize="10" TextColor="Black" Margin="0,0,7,0" />
                             <Label Text="{Binding Descendants, StringFormat='{0} comments'}" FontSize="10" TextColor="Black" Margin="0,0,7,0"/>
-                            <Label Text="{Binding Created_At, StringFormat='Posted: {0}'}" LineBreakMode="CharacterWrap" WidthRequest="100" FontSize="10" TextColor="Black" Margin="0,0,7,0" />
+                            <Label Text="{Binding  ItemAge, StringFormat='{0} ago'}" LineBreakMode="CharacterWrap" WidthRequest="100" FontSize="10" TextColor="Black" Margin="0,0,7,0" />
                         </HorizontalStackLayout>
                         <Button x:Name="PostButton" IsVisible="false" Text="Update List" Margin="10" WidthRequest="200"/>
                     </VerticalStackLayout>
