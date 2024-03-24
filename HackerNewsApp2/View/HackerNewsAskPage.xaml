@@ -19,10 +19,10 @@
                                WidthRequest="{OnIdiom 100, Phone=300, Tablet=600, Desktop=700}"/>
 
                         <HorizontalStackLayout Margin="0,10,0,0" WidthRequest="{OnIdiom 100, Phone=300, Tablet=600, Desktop=700}">
-                            <Label Text="{Binding Author, StringFormat='By: {0}'}" FontSize="10" LineBreakMode="CharacterWrap" TextColor="Black" Margin="0,0,7,0" />
                             <Label Text="{Binding Points, StringFormat='{0} points'}" FontSize="10" TextColor="Black" Margin="0,0,7,0" />
+                            <Label Text="{Binding Author, StringFormat='By: {0}'}" FontSize="10" LineBreakMode="CharacterWrap" TextColor="Black" Margin="0,0,7,0" />
+                            <Label Text="{Binding ItemAge, StringFormat='{0} ago'}" LineBreakMode="CharacterWrap" FontSize="10" TextColor="Black" Margin="0,0,7,0" />
                             <Label Text="{Binding Descendants, StringFormat='{0} comments'}" FontSize="10" TextColor="Black" Margin="0,0,7,0"/>
-                            <Label Text="{Binding ItemAge, StringFormat='{0} ago'}" WidthRequest="100" LineBreakMode="CharacterWrap" FontSize="10" TextColor="Black" Margin="0,0,7,0" />
                         </HorizontalStackLayout>
                     </VerticalStackLayout>
                 </Border>
