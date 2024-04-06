@@ -4,27 +4,36 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:local="clr-namespace:HackerNewsApp2"
-    xmlns:view="clr-namespace:HackerNewsApp2.View"
-    Shell.FlyoutBehavior="Flyout">
+    xmlns:view="clr-namespace:HackerNewsApp2.View">
 
-    <ShellContent
-        Title="Hacker News"
-        ContentTemplate="{DataTemplate local:MainPage}"
-        Route="MainPage" />
+    <TabBar>
 
-    <ShellContent
-        Title="Top HN"
-        ContentTemplate="{DataTemplate view:HackerNewsTopPage}"
-        Route="HackerNewsTopPage" />
-    
-    <ShellContent
-        Title="Ask HN"
-        ContentTemplate="{DataTemplate view:HackerNewsAskPage}"
-        Route="HackerNewsAskPage" />
+        <!-- <a target="_blank" href="https://icons8.com/icon/11940/hospital-sign">Hospital Sign</a> icon by <a target="_blank" href="https://icons8.com">Icons8</a> -->
+        <ShellContent
+            Title="Home"
+            ContentTemplate="{DataTemplate local:MainPage}"
+            Icon="home_hn.png"
+            Route="MainPage" />
 
-    <ShellContent
-        Title="Best of HN"
-        ContentTemplate="{DataTemplate view:HackerNewsBestPage}"
-        Route="HackerNewsBestPage" />
+        <!-- <a target="_blank" href="https://icons8.com/icon/7856/star">Star</a> icon by <a target="_blank" href="https://icons8.com">Icons8</a> -->
+        <ShellContent
+                Title="Top HN"
+                ContentTemplate="{DataTemplate view:HackerNewsTopPage}"
+                Icon="top_hn.png"
+                Route="HackerNewsTopPage" />
 
+        <!-- <a target="_blank" href="https://icons8.com/icon/rx6rZTa05YPn/ask-question">Ask Question</a> icon by <a target="_blank" href="https://icons8.com">Icons8</a> -->
+        <ShellContent
+            Title="Ask HN"
+            ContentTemplate="{DataTemplate view:HackerNewsAskPage}"
+            Icon="ask_hn.png"
+            Route="HackerNewsAskPage" />
+
+        <!-- <a target="_blank" href="https://icons8.com/icon/123934/fire-heart">Fire Heart</a> icon by <a target="_blank" href="https://icons8.com">Icons8</a> -->
+        <ShellContent
+                Title="Best of HN"
+                ContentTemplate="{DataTemplate view:HackerNewsBestPage}"
+                Icon="best_hn.png"
+                Route="HackerNewsBestPage" />
+    </TabBar>
 </Shell>
