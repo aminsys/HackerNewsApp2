@@ -51,10 +51,11 @@ jobs:
     steps:
       - uses: actions/checkout@v3 # Necessary to access local action
       - name: github-action-release-apk
+        id: create_release
         uses: softprops/action-gh-release@v2
         with:
           files: |
-           ./publish/HackerNewsApp2.Android_SingleFile.apk
+            HackerNewsApp2/bin/Release/net7.0-android/*.apk*
           tag_name: v${{ github.run_number }}
           release_name: Release ${{ github.run_number }}
           body: |
