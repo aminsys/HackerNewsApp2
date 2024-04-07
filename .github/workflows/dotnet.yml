@@ -12,7 +12,7 @@ on:
 jobs:
   build:
 
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
 
     steps:
     - uses: actions/checkout@v3
@@ -47,7 +47,7 @@ jobs:
       contents: write
     needs: build
     if: ${{ github.ref_name == 'main' }}
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
     steps:
       - uses: actions/checkout@v3 # Necessary to access local action
       - name: github-action-release-apk
