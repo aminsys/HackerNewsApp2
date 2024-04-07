@@ -51,6 +51,9 @@ jobs:
     steps:
       - uses: actions/checkout@v3 # Necessary to access local action
       - name: github-action-release-apk
-        uses: gogoadl/github-action-release-apk@v1.0.0-alpha09
+        uses: softprops/action-gh-release@v2
         with:
-          asset-name: 'Hacker-News-App.apk'
+          files: |
+           ./publish/HackerNewsApp2.Android_SingleFile.apk
+          release_name: Release ${{ github.run_number }}
+          
