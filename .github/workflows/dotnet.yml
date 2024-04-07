@@ -16,15 +16,29 @@ jobs:
 
     steps:
     - uses: actions/checkout@v3
+    
     - name: Setup .NET
       uses: actions/setup-dotnet@v3
       with:
         dotnet-version: 7.0.x
+    
     - uses: actions/setup-java@v2
       with:
         distribution: 'microsoft'
         java-version: '11'
+        
     - name: Install MAUI workload
       run: dotnet workload install maui
-    - name: Build
-      run: dotnet build -c Release -f:net7.0-android
+
+    - name: Restore dependencies
+      run: dotnet restore HackerNewsApp2/HackerNewsApp2.csproj
+      
+    - name: Build MAUI Android
+      run: dotnet publish HackerNewsApp2/HackerNewsApp2.csproj -c Release -f:net7.0-android --no-restore
+      
+      if: ${{ github.ref_name == 'main' }}
+    - name: Upload Android Artifact
+      uses: actions/upload-artifact@v3.1.0
+      with:
+        name: hackernewsapp2-android-ci-build
+        path: HackerNewsApp2/bin/Release/net7.0-android/*Signed.a*
