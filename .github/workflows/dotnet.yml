@@ -1,6 +1,4 @@
-# This workflow will build a .NET project
-# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-net
-
+--new 
 name: .NET MAUI (Android)
 
 on:
@@ -41,25 +39,30 @@ jobs:
       with:
         name: hackernewsapp2-android-ci-build
         path: HackerNewsApp2/bin/Release/net7.0-android/*.apk*
-  
+
   release:
     permissions:
       contents: write
     needs: build
-    if: ${{ github.ref_name == 'main' }}
+    if: github.ref == 'refs/heads/main'
     runs-on: windows-latest
     steps:
-      - uses: actions/checkout@v3 # Necessary to access local action
-      - name: github-action-release-apk
+	    - name: Create artifacts directory
+		    run: mkdir -p artifacts
+      - name: Download artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: hackernewsapp2-android-ci-build
+          path: artifacts
+      - name: Create GitHub release
         id: create_release
         uses: softprops/action-gh-release@v2
         with:
           files: |
-            HackerNewsApp2/bin/Release/net7.0-android/*.apk*
+            artifacts/*.apk*
           tag_name: v${{ github.run_number }}
           release_name: Release ${{ github.run_number }}
           body: |
             Release ${{ github.run_number }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          
