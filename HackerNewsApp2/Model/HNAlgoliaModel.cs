@@ -20,23 +20,14 @@ namespace HackerNewsApp2.Model
         public bool Deleted { get; set; }
         public bool Dead { get; set; }
         public DateTime Created_At { get; set; }
-        public string ItemAge
-        {
-            get
-            {
-                return Util.Util.GetTimeAgo(Created_At);
-            }
-        }
+        public string ItemAge => Util.Util.GetTimeAgo(Created_At);
         public int Parent { get; set; }
         public int Poll { get; set; }
         public int Parts { get; set; }
         public string Url { get; set; }
         public HNAlgoliaModel[] Children { get; set; }
         public int Descendants { 
-            get 
-            { 
-                return Children.Length;  
-            } 
+            get => Children.Length;
             set => Descendants = value;
         }
 
