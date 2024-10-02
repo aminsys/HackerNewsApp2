@@ -27,7 +27,7 @@ namespace HackerNewsApp2.Model
         public string Url { get; set; }
         public HNAlgoliaModel[] Children { get; set; }
         public int Descendants { 
-            get => Children.Length;
+            get => TotalReplies(this) + Children.Length;
             set => Descendants = value;
         }
 
@@ -64,6 +64,20 @@ namespace HackerNewsApp2.Model
                 }
             }
             set => text = value;
+        }
+
+        private int TotalReplies(HNAlgoliaModel post)
+        {
+            int totalReplies = 0;
+            if(post.Children == null)
+            {
+                return 0;
+            }
+
+            foreach (var child in post.Children) {
+                totalReplies += child.Children.Length + TotalReplies(child);
+            }
+            return totalReplies;
         }
     }
 }
