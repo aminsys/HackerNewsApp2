@@ -34,8 +34,8 @@ namespace HackerNewsApp2.Model
         public HNAlgoliaModel[] Children { get; set; }
         public int Descendants { 
             get 
-            { 
-                return Children.Length;  
+            {
+                return TotalReplies(this) + Children.Length;
             } 
             set => Descendants = value;
         }
@@ -73,6 +73,23 @@ namespace HackerNewsApp2.Model
                 }
             }
             set => text = value;
+        }
+
+        private int TotalReplies(HNAlgoliaModel post)
+        {
+            int total = 0;
+            if(post.Children != null)
+            {
+                foreach (HNAlgoliaModel subcomments in post.Children)
+                {
+                    if (subcomments.Children != null)
+                    {
+                        total = total + subcomments.Children.Length + TotalReplies(subcomments);
+                    }
+                }
+            }
+
+            return total;
         }
     }
 }
