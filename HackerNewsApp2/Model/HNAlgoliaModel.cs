@@ -20,23 +20,14 @@ namespace HackerNewsApp2.Model
         public bool Deleted { get; set; }
         public bool Dead { get; set; }
         public DateTime Created_At { get; set; }
-        public string ItemAge
-        {
-            get
-            {
-                return Util.Util.GetTimeAgo(Created_At);
-            }
-        }
+        public string ItemAge => Util.Util.GetTimeAgo(Created_At);
         public int Parent { get; set; }
         public int Poll { get; set; }
         public int Parts { get; set; }
         public string Url { get; set; }
         public HNAlgoliaModel[] Children { get; set; }
         public int Descendants { 
-            get 
-            {
-                return TotalReplies(this) + Children.Length;
-            } 
+            get => TotalReplies(this) + Children.Length;
             set => Descendants = value;
         }
 
@@ -77,19 +68,16 @@ namespace HackerNewsApp2.Model
 
         private int TotalReplies(HNAlgoliaModel post)
         {
-            int total = 0;
-            if(post.Children != null)
+            int totalReplies = 0;
+            if(post.Children == null)
             {
-                foreach (HNAlgoliaModel subcomments in post.Children)
-                {
-                    if (subcomments.Children != null)
-                    {
-                        total = total + subcomments.Children.Length + TotalReplies(subcomments);
-                    }
-                }
+                return 0;
             }
 
-            return total;
+            foreach (var child in post.Children) {
+                totalReplies += child.Children.Length + TotalReplies(child);
+            }
+            return totalReplies;
         }
     }
 }
