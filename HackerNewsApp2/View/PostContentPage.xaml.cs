@@ -31,9 +31,13 @@ public partial class PostContentPage : ContentPage
         loadingIndicator.IsVisible = false;
     }
 
+    /// <summary>
+    /// Fetch posts and their main comments, and sub comments
+    /// </summary>
+    /// <returns>An observable list containing posts</returns>
     private ObservableCollection<HNAlgoliaModel> FetchPostAsync()
     {
-        ObservableCollection<HNAlgoliaModel> ChildrenContent = new ObservableCollection<HNAlgoliaModel>();
+        var childrenContent = new ObservableCollection<HNAlgoliaModel>();
         try
         {
             this.Title = postObject.Title;
@@ -42,10 +46,18 @@ public partial class PostContentPage : ContentPage
 
             foreach (HNAlgoliaModel child in postObject.Children)
             {
-                ChildrenContent.Add(child);
+                childrenContent.Add(child);
+                if(child.Children != null)
+                {
+                    var subComments = FetchSubComments(child);
+                    foreach(var s in subComments)
+                    {
+                        childrenContent.Add(s);
+                    }
+                }
             }
 
-            return ChildrenContent;
+            return childrenContent;
         }
 
         catch (Exception ex)
@@ -53,6 +65,39 @@ public partial class PostContentPage : ContentPage
             Debug.WriteLine($"Error: {ex.Message}");
             return new ObservableCollection<HNAlgoliaModel>();
         }
+    }
+
+    /// <summary>
+    /// Get the sub comments that belong to main comments, if they exist
+    /// </summary>
+    /// <param name="comment">The first sub comment in the main comment</param>
+    /// <returns>A list of sub comments</returns>
+    private ObservableCollection<HNAlgoliaModel> FetchSubComments(HNAlgoliaModel comment)
+    {
+        var subComments = new ObservableCollection<HNAlgoliaModel>();
+        try
+        {
+            foreach(var subComment in comment.Children)
+            {
+                subComments.Add(subComment);
+                if(subComment.Children != null)
+                {
+                    FetchSubComments(subComment);
+                }
+
+                else
+                {
+                    return null;
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            Debug.WriteLine($"Error: {ex.Message}");
+            return subComments;
+        }
+
+        return subComments;
     }
 
     private async void TapGestureRecognizer_Tapped(object sender, TappedEventArgs e)
