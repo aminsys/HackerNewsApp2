@@ -36,32 +36,37 @@ namespace HackerNewsApp2.Model
             get
             {
                 HtmlDocument doc = new HtmlDocument();
-                try
+                if(text is not null)
                 {
-                    text = WebUtility.HtmlDecode(text);
-                    doc.LoadHtml(text);
-                    var root = doc.DocumentNode;
-                    var sb = new StringBuilder();
-                    foreach (var node in root.DescendantsAndSelf())
+                    try
                     {
-                        if (!node.HasChildNodes)
+                        text = WebUtility.HtmlDecode(text);
+                        doc.LoadHtml(text);
+                        var root = doc.DocumentNode;
+                        var sb = new StringBuilder();
+                        foreach (var node in root.DescendantsAndSelf())
                         {
-                            string text = node.InnerHtml;
-                            if (!string.IsNullOrEmpty(text))
+                            if (!node.HasChildNodes)
                             {
-                                sb.AppendLine(text.Trim());
+                                string text = node.InnerHtml;
+                                if (!string.IsNullOrEmpty(text))
+                                {
+                                    sb.AppendLine(text.Trim());
+                                }
                             }
                         }
-                    }
-                    text = sb.ToString();
+                        text = sb.ToString();
 
-                    return text;
+                        return text;
+                    }
+                    catch (Exception e)
+                    {
+                        Debug.WriteLine("Error while converting text property:\n" + e.Message);
+                        return null;
+                    }
                 }
-                catch (Exception e)
-                {
-                    Debug.WriteLine("Error while converting text property:\n" + e.Message);
-                    return null;
-                }
+                else return string.Empty;
+                
             }
             set => text = value;
         }
