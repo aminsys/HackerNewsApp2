@@ -87,7 +87,7 @@ public partial class PostContentPage : ContentPage
 
                 else
                 {
-                    return null;
+                    return new ObservableCollection<HNAlgoliaModel>();
                 }
             }
         }
