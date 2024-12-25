@@ -15,7 +15,7 @@ jobs:
     - name: Setup .NET
       uses: actions/setup-dotnet@v3
       with:
-        dotnet-version: 7.0.x
+        dotnet-version: 8.0.x
     
     - uses: actions/setup-java@v2
       with:
@@ -29,14 +29,14 @@ jobs:
       run: dotnet restore HackerNewsApp2/HackerNewsApp2.csproj
       
     - name: Build MAUI Android
-      run: dotnet publish HackerNewsApp2/HackerNewsApp2.csproj -c Release -f:net7.0-android --no-restore
+      run: dotnet publish HackerNewsApp2/HackerNewsApp2.csproj -c Release -f:net8.0-android --no-restore
       
     - name: Upload Android Artifact
       uses: actions/upload-artifact@v3.1.0
       with:
         name: hackernewsapp2-android-ci-build
-        path: HackerNewsApp2/bin/Release/net7.0-android/*.apk*
-
+        path: HackerNewsApp2/bin/Release/net8.0-android/*.apk*
+        
   release:
     permissions:
       contents: write

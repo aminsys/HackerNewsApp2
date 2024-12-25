@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.7.34018.315
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HackerNewsApp2", "HackerNewsApp2\HackerNewsApp2.csproj", "{62C6D11D-1C97-460F-8996-9F86B756F307}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HackerNewsApp2", "HackerNewsApp2\HackerNewsApp2.csproj", "{62C6D11D-1C97-460F-8996-9F86B756F307}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{43558223-9562-480E-8824-237A97F238F4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
