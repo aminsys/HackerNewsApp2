@@ -3,6 +3,8 @@ name: .NET MAUI (Android)
 on:
   pull_request:
     branches: [ "main" ]
+  push:
+    branches: ["main"]
 
 jobs:
   build:
