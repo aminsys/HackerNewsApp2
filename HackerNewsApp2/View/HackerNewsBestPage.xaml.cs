@@ -27,7 +27,7 @@ public partial class HackerNewsBestPage : ContentPage
 
     private async void NewsCollectionView_RemainingItemsThresholdReached(object sender, EventArgs e)
     {
-        if (!isLoading && bestItemsTrimmed.Count > 0)
+        if (!isLoading && bestItemsTrimmed?.Count > 0)
         {
             isLoading = true;
             loadingIndicator.IsRunning = true;
