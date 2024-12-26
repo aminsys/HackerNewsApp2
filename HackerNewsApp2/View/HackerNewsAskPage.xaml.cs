@@ -1,8 +1,6 @@
 using HackerNewsApp2.API;
 using HackerNewsApp2.Model;
 using System.Collections.ObjectModel;
-using System.Diagnostics;
-using System.Net.Http.Json;
 
 namespace HackerNewsApp2.View;
 
@@ -17,8 +15,8 @@ public partial class HackerNewsAskPage : ContentPage
     private APICaller apiCaller;
 
     public HackerNewsAskPage()
-	{
-		InitializeComponent();
+    {
+        InitializeComponent();
         apiCaller = new APICaller();
 
         NewsCollectionView.RemainingItemsThreshold = 2;
@@ -54,14 +52,31 @@ public partial class HackerNewsAskPage : ContentPage
     {
         base.OnAppearing();
 
-        askItemsTrimmed = await apiCaller.GetPostItems(AskStories);
-        newsItems = await apiCaller.FetchNewsAsync(ApiUrl, askItemsTrimmed);
-        NewsCollectionView.ItemsSource = newsItems;
+        if (askItemsTrimmed is null)
+        {
+            askItemsTrimmed = await apiCaller.GetPostItems(AskStories);
+            newsItems = await apiCaller.FetchNewsAsync(ApiUrl, askItemsTrimmed);
+            NewsCollectionView.ItemsSource = newsItems;
+        }
+
+        NewsCollectionView.RemainingItemsThresholdReached += NewsCollectionView_RemainingItemsThresholdReached;
+    }
+
+    protected override void OnDisappearing()
+    {
+        base.OnDisappearing();
+        NewsCollectionView.RemainingItemsThresholdReached -= NewsCollectionView_RemainingItemsThresholdReached;
     }
 
     private async void OpenSelectedPost_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
         HNAlgoliaModel post = (e.CurrentSelection.FirstOrDefault() as HNAlgoliaModel);
         await Navigation.PushAsync(new PostContentPage(post));
+    }
+
+    protected override bool OnBackButtonPressed()
+    {
+        Navigation.PopAsync();
+        return base.OnBackButtonPressed();
     }
 }

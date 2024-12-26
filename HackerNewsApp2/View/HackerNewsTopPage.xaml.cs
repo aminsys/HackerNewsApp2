@@ -1,9 +1,6 @@
 using HackerNewsApp2.API;
 using HackerNewsApp2.Model;
-using HtmlAgilityPack;
 using System.Collections.ObjectModel;
-using System.Diagnostics;
-using System.Net.Http.Json;
 
 namespace HackerNewsApp2.View;
 
@@ -54,16 +51,31 @@ public partial class HackerNewsTopPage : ContentPage
     {
         base.OnAppearing();
 
-        topItemsTrimmed = await apiCaller.GetPostItems(TopStories);
-        newsItems = await apiCaller.FetchNewsAsync(ApiUrl, topItemsTrimmed);
-        NewsCollectionView.ItemsSource = newsItems;
-        loadingIndicator.IsRunning = false;
-        loadingIndicator.IsVisible = false;
+        if (topItemsTrimmed is null)
+        {
+            topItemsTrimmed = await apiCaller.GetPostItems(TopStories);
+            newsItems = await apiCaller.FetchNewsAsync(ApiUrl, topItemsTrimmed);
+            NewsCollectionView.ItemsSource = newsItems;
+        }
+
+        NewsCollectionView.RemainingItemsThresholdReached += NewsCollectionView_RemainingItemsThresholdReached;
+    }
+
+    protected override void OnDisappearing()
+    {
+        base.OnDisappearing();
+        NewsCollectionView.RemainingItemsThresholdReached -= NewsCollectionView_RemainingItemsThresholdReached;
     }
 
     private async void OpenSelectedPost_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
         HNAlgoliaModel post = (e.CurrentSelection.FirstOrDefault() as HNAlgoliaModel);
         await Navigation.PushAsync(new PostContentPage(post));
+    }
+
+    protected override bool OnBackButtonPressed()
+    {
+        Navigation.PopAsync();
+        return base.OnBackButtonPressed();
     }
 }
