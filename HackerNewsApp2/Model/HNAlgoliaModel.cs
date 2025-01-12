@@ -1,11 +1,7 @@
 ﻿using HtmlAgilityPack;
-using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
 using System.Net;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace HackerNewsApp2.Model
 {
@@ -26,7 +22,8 @@ namespace HackerNewsApp2.Model
         public int Parts { get; set; }
         public string Url { get; set; }
         public HNAlgoliaModel[] Children { get; set; }
-        public int Descendants { 
+        public int Descendants
+        {
             get => TotalReplies(this) + Children.Length;
             set => Descendants = value;
         }
@@ -36,7 +33,7 @@ namespace HackerNewsApp2.Model
             get
             {
                 HtmlDocument doc = new HtmlDocument();
-                if(text is not null)
+                if (text is not null)
                 {
                     try
                     {
@@ -66,7 +63,7 @@ namespace HackerNewsApp2.Model
                     }
                 }
                 else return string.Empty;
-                
+
             }
             set => text = value;
         }
@@ -74,12 +71,13 @@ namespace HackerNewsApp2.Model
         private int TotalReplies(HNAlgoliaModel post)
         {
             int totalReplies = 0;
-            if(post.Children == null)
+            if (post.Children == null)
             {
                 return 0;
             }
 
-            foreach (var child in post.Children) {
+            foreach (var child in post.Children)
+            {
                 totalReplies += child.Children.Length + TotalReplies(child);
             }
             return totalReplies;

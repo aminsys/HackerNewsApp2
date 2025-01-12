@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace HackerNewsApp2.Util
 {
-    public class Util
+    public static class Util
     {
         private static readonly long SECOND_MILLIS = 1000;
         private static readonly long MINUTE_MILLIS = 60 * SECOND_MILLIS;
